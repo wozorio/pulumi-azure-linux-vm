@@ -2,8 +2,9 @@ from pulumi_azure_native import compute
 
 
 def create_vm(resource_group_name, location, admin_username, ssh_public_key, network_interface_id):
-    # Create Linux VM
-    vm = compute.VirtualMachine("serverVM",
+    """Create a Linux VM."""
+    compute.VirtualMachine(
+        "serverVM",
         resource_group_name=resource_group_name,
         location=location,
         os_profile=compute.OSProfileArgs(
@@ -40,5 +41,3 @@ def create_vm(resource_group_name, location, admin_username, ssh_public_key, net
             ),
         ),
     )
-
-    return vm

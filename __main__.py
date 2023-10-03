@@ -13,12 +13,14 @@ def main():
     admin_username = config.get("adminUsername")
     ssh_public_key = config.get("sshPublicKey")
 
-    resource_group = resources.ResourceGroup("playground")
+    tags = {"created_by": "pulumi"}
+
+    resource_group = resources.ResourceGroup("playground", tags=tags)
 
     virtual_network = create_virtual_network(resource_group.name, resource_group.location)
     subnet = create_subnet(resource_group.name, virtual_network.name)
 
-    network_security_group = nsg.create_network_security_group("resourceGroup")
+    network_security_group = nsg.create_network_security_group(resource_group.name)
     nsg.create_nsg_rule(
         network_security_group.resource_group_name,
         network_security_group.name,
@@ -42,7 +44,6 @@ def main():
 
     vm.create_vm(resource_group.name, resource_group.location, admin_username, ssh_public_key, subnet.id)
 
-    # Export the public IP address of the VM
     pulumi.export("publicIP", public_ip.ip_address)
 
 
