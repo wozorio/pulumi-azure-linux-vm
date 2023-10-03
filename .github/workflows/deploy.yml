@@ -1,7 +1,8 @@
-name: CI
-
+name: Deploy
 on:
-  pull_request:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 defaults:
@@ -9,11 +10,11 @@ defaults:
     shell: bash
 
 jobs:
-  preview:
-    name: Preview
+  update:
+    name: Update
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - name: Checkout bash-scripts repo
         uses: actions/checkout@v4
         with:
@@ -28,18 +29,14 @@ jobs:
             ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
             ${{ secrets.TENANT_ID }}
 
-      - uses: actions/setup-python@v4
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+      - uses: actions/setup-python@v2
+      - run: pip install -r requirements.txt
 
-      - name: Run pylint
-        run: |
-          pylint *.py
-
-      - uses: pulumi/actions@v4
+      - uses: pulumi/actions@v3
         with:
-          command: preview
+          command: up
           stack-name: playground
+          refresh: true
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }} \
