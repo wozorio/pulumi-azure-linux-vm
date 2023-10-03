@@ -67,7 +67,7 @@ def main():
         resource_group.location,
         admin_username=admin_username,
         network_interface_id=network_interface.id,
-        public_ip_address=public_ip.id,
+        public_ip_address_id=public_ip.id,
         subnet_id=subnet.id,
         tags=TAGS,
     )
@@ -111,7 +111,7 @@ def create_network_interface(name, resource_group_name, **kwargs):
                 subnet=network.SubnetArgs(id=kwargs.get("subnet_id")),
                 private_ip_allocation_method=kwargs.get("private_ip_allocation_method", "Static"),
                 private_ip_address=kwargs.get("private_ip_address"),
-                public_ip_address=kwargs.get("public_ip_address"),
+                public_ip_address_id=kwargs.get("public_ip_address_id"),
             )
         ],
         tags=kwargs.get("tags"),
