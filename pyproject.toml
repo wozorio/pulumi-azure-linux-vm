@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "pulumi-azure-linux-vm"
+version = "0.1.0"
+description = ""
+authors = ["Wellington Ozorio <well.ozorio@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pulumi = "^3.86.0"
+pulumi-azure-native = "^2.9.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
