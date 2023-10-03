@@ -11,9 +11,9 @@ def main():
     """The main function."""
     config = pulumi.Config()
     admin_username = config.get("admin_username")
-    private_ip_address = config.get("private_ip_address")
     virtual_network_address_space = config.get("virtual_network_address_space")
     subnet_address_space = config.get("subnet_address_space")
+    private_ip_address = config.get("private_ip_address")
 
     resource_group = resources.ResourceGroup("playground-wozorio", tags=TAGS)
 
