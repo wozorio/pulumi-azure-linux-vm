@@ -35,7 +35,6 @@ jobs:
 
       - name: Run pylint
         run: |
-          set -e
           pylint *.py
 
       - uses: pulumi/actions@v4
