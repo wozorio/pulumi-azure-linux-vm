@@ -154,14 +154,14 @@ def create_nsg_rule(name, resource_group_name, network_security_group_name, **kw
         name,
         resource_group_name=resource_group_name,
         network_security_group_name=network_security_group_name,
+        priority=kwargs.get("priority"),
+        direction=kwargs.get("direction", "Inbound"),
+        access=kwargs.get("access", "Allow"),
         protocol=kwargs.get("protocol", "Tcp"),
         source_port_range=kwargs.get("source_port_range"),
         destination_port_range=kwargs.get("destination_port_range"),
         source_address_prefix=kwargs.get("source_address_prefix"),
         destination_address_prefix=kwargs.get("destination_address_prefix"),
-        access=kwargs.get("access", "Allow"),
-        direction=kwargs.get("direction", "Inbound"),
-        priority=kwargs.get("priority"),
     )
     return nsg_rule
 
