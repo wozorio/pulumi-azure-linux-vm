@@ -27,8 +27,15 @@ def main():
 
     subnet = create_subnet("snet", resource_group.name, virtual_network.name, subnet_address_space=subnet_address_space)
 
+    public_ip = create_public_ip("pip-ubuntu", resource_group.name, resource_group.location, tags=TAGS)
+
     network_interface = create_network_interface(
-        "nic_ubuntu", resource_group.name, subnet_id=subnet.id, private_ip_address=private_ip_address, tags=TAGS
+        "nic_ubuntu",
+        resource_group.name,
+        subnet_id=subnet.id,
+        private_ip_address=private_ip_address,
+        public_ip_address_id=public_ip.id,
+        tags=TAGS,
     )
 
     network_security_group = create_network_security_group("nsg", resource_group.name, resource_group.location, tags=TAGS)
@@ -59,15 +66,12 @@ def main():
         )
     )
 
-    public_ip = create_public_ip("pip-ubuntu", resource_group.name, resource_group.location, tags=TAGS)
-
     vm.create_vm(
         "ubuntu",
         resource_group.name,
         resource_group.location,
         admin_username=admin_username,
         network_interface_id=network_interface.id,
-        public_ip_address_id=public_ip.id,
         subnet_id=subnet.id,
         tags=TAGS,
     )
