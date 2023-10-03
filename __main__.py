@@ -104,6 +104,21 @@ def create_subnet(name, resource_group_name, virtual_network_name, **kwargs):
     return subnet
 
 
+def create_public_ip(name, resource_group_name, location, **kwargs):
+    """Create a public IP."""
+    public_ip = network.PublicIPAddress(
+        name,
+        resource_group_name=resource_group_name,
+        location=location,
+        public_ip_allocation_method="Dynamic",
+        sku=network.PublicIPAddressSkuArgs(name="Basic"),
+        dns_settings=network.PublicIPAddressDnsSettingsArgs(domain_name_label="vm-ubuntu"),
+        public_ip_address_version="IPv4",
+        tags=kwargs.get("tags"),
+    )
+    return public_ip
+
+
 def create_network_interface(name, resource_group_name, **kwargs):
     """Create a network interface."""
     network_interface = network.NetworkInterface(
@@ -149,21 +164,6 @@ def create_nsg_rule(name, resource_group_name, network_security_group_name, **kw
         priority=kwargs.get("priority"),
     )
     return nsg_rule
-
-
-def create_public_ip(name, resource_group_name, location, **kwargs):
-    """Create a public IP."""
-    public_ip = network.PublicIPAddress(
-        name,
-        resource_group_name=resource_group_name,
-        location=location,
-        public_ip_allocation_method="Dynamic",
-        sku=network.PublicIPAddressSkuArgs(name="Basic"),
-        dns_settings=network.PublicIPAddressDnsSettingsArgs(domain_name_label="vm-ubuntu"),
-        public_ip_address_version="IPv4",
-        tags=kwargs.get("tags"),
-    )
-    return public_ip
 
 
 if __name__ == "__main__":
