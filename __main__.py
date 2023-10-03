@@ -153,7 +153,7 @@ def create_public_ip(name, resource_group_name, location, **kwargs):
         location=location,
         public_ip_allocation_method="Dynamic",
         sku=network.PublicIPAddressSkuArgs(name="Basic"),
-        dns_settings=network.PublicIPAddressDnsSettingsArgs(domain_name_label="vm-ubuntu9"),
+        dns_settings=network.PublicIPAddressDnsSettingsArgs(domain_name_label="vm-ubuntu"),
         public_ip_address_version="IPv4",
         tags=kwargs.get("tags"),
     )
