@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  preview:
+    name: Preview
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Checkout bash-scripts repo
+        uses: actions/checkout@v4
+        with:
+          repository: wozorio/bash-scripts
+          path: bash-scripts
+
+      - uses: actions/setup-python@v2
+
+      - name: Login to Azure
+        run: |
+          ./bash-scripts/azure-cli-login.sh \
+            ${{ secrets.SUBSCRIPTION_ID }} \
+            ${{ secrets.SERVICE_PRINCIPAL_ID }} \
+            ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
+            ${{ secrets.TENANT_ID }}
+
+      - run: pip install -r requirements.txt
+
+      - uses: pulumi/actions@v3
+        with:
+          command: preview
+          stack-name: pulumi-azure-linux-vm
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
