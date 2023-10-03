@@ -4,7 +4,7 @@ from pulumi_azure_native import compute
 
 def create_vm(name, resource_group_name, location, **kwargs):
     """Create a Linux VM."""
-    ssh_public_key=get_ssh_public_key("id_rsa.pub")
+    ssh_public_key = get_ssh_public_key("id_rsa.pub")
 
     compute.VirtualMachine(
         name,
@@ -40,13 +40,14 @@ def create_vm(name, resource_group_name, location, **kwargs):
                 publisher=kwargs.get("publisher", "canonical"),
                 offer=kwargs.get("offer", "0001-com-ubuntu-server-jammy"),
                 sku=kwargs.get("sku", "22_04-lts-gen2"),
-                version=kwargs.get("version","latest")
+                version=kwargs.get("version", "latest"),
             ),
         ),
-        tags=kwargs.get("tags")
+        tags=kwargs.get("tags"),
     )
+
 
 def get_ssh_public_key(file_path) -> str:
     """Read the SSH public key from a file."""
-    with open(file_path, 'r', encoding="utf-8") as file:
-        return file.read().replace('\n', '')
+    with open(file_path, "r", encoding="utf-8") as file:
+        return file.read().replace("\n", "")

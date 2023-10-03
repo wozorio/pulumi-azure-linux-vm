@@ -1,11 +1,11 @@
 """An Azure RM Python Pulumi program"""
 
 import pulumi
+import vm
 from pulumi_azure_native import network, resources
 
-import vm
-
 TAGS = {"created_by": "pulumi"}
+
 
 def main():
     """The main function."""
@@ -22,17 +22,13 @@ def main():
         resource_group.name,
         resource_group.location,
         virtual_network_address_space=virtual_network_address_space,
-        tags=TAGS
+        tags=TAGS,
     )
 
     subnet = create_subnet("snet", resource_group.name, virtual_network.name, subnet_address_space=subnet_address_space)
 
-    network_interface=create_network_interface(
-        "nic_ubuntu",
-        resource_group.name,
-        subnet_id=subnet.id,
-        private_ip_address=private_ip_address,
-        tags=TAGS
+    network_interface = create_network_interface(
+        "nic_ubuntu", resource_group.name, subnet_id=subnet.id, private_ip_address=private_ip_address, tags=TAGS
     )
 
     network_security_group = create_network_security_group("nsg", resource_group.name, resource_group.location, tags=TAGS)
@@ -46,7 +42,7 @@ def main():
             source_port_range="*",
             destination_port_range="80",
             source_address_prefix="Internet",
-            destination_address_prefix = f"{private_ip_address}/32"
+            destination_address_prefix=f"{private_ip_address}/32",
         )
     )
     pulumi.Output.all(resource_group.name, network_security_group.name).apply(
@@ -59,7 +55,7 @@ def main():
             source_port_range="*",
             destination_port_range="22",
             source_address_prefix="Internet",
-            destination_address_prefix = f"{private_ip_address}/32"
+            destination_address_prefix=f"{private_ip_address}/32",
         )
     )
 
@@ -73,10 +69,11 @@ def main():
         network_interface_id=network_interface.id,
         public_ip_address=public_ip.id,
         subnet_id=subnet.id,
-        tags=TAGS
+        tags=TAGS,
     )
 
     pulumi.export("Ubuntu VM public IP", public_ip.ip_address)
+
 
 def create_virtual_network(name, resource_group_name, location, **kwargs):
     """Create a virtual network."""
@@ -87,7 +84,7 @@ def create_virtual_network(name, resource_group_name, location, **kwargs):
         address_space=network.AddressSpaceArgs(
             address_prefixes=[kwargs.get("virtual_network_address_space")],
         ),
-        tags=kwargs.get("tags")
+        tags=kwargs.get("tags"),
     )
     return virtual_network
 
@@ -101,6 +98,7 @@ def create_subnet(name, resource_group_name, virtual_network_name, **kwargs):
         address_prefix=kwargs.get("subnet_address_space"),
     )
     return subnet
+
 
 def create_network_interface(name, resource_group_name, **kwargs):
     """Create a network interface."""
@@ -116,19 +114,18 @@ def create_network_interface(name, resource_group_name, **kwargs):
                 public_ip_address=kwargs.get("public_ip_address"),
             )
         ],
-        tags=kwargs.get("tags")
+        tags=kwargs.get("tags"),
     )
     return network_interface
+
 
 def create_network_security_group(name, resource_group_name, location, **kwargs):
     """Create a network security group."""
     nsg = network.NetworkSecurityGroup(
-        name,
-        resource_group_name=resource_group_name,
-        location=location,
-        tags=kwargs.get("tags")
+        name, resource_group_name=resource_group_name, location=location, tags=kwargs.get("tags")
     )
     return nsg
+
 
 def create_nsg_rule(name, resource_group_name, network_security_group_name, **kwargs) -> network.SecurityRule:
     """Create a NSG rule."""
@@ -143,9 +140,10 @@ def create_nsg_rule(name, resource_group_name, network_security_group_name, **kw
         destination_address_prefix=kwargs.get("destination_address_prefix"),
         access=kwargs.get("access", "Allow"),
         direction=kwargs.get("direction", "Inbound"),
-        priority=kwargs.get("priority")
+        priority=kwargs.get("priority"),
     )
     return nsg_rule
+
 
 def create_public_ip(name, resource_group_name, location, **kwargs):
     """Create a public IP."""
@@ -154,16 +152,13 @@ def create_public_ip(name, resource_group_name, location, **kwargs):
         resource_group_name=resource_group_name,
         location=location,
         public_ip_allocation_method="Dynamic",
-        sku=network.PublicIPAddressSkuArgs(
-            name="Basic"
-        ),
-        dns_settings=network.PublicIPAddressDnsSettingsArgs(
-            domain_name_label="vm-ubuntu9"
-        ),
+        sku=network.PublicIPAddressSkuArgs(name="Basic"),
+        dns_settings=network.PublicIPAddressDnsSettingsArgs(domain_name_label="vm-ubuntu9"),
         public_ip_address_version="IPv4",
-        tags=kwargs.get("tags")
+        tags=kwargs.get("tags"),
     )
     return public_ip
+
 
 if __name__ == "__main__":
     main()
