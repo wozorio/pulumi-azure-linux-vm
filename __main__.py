@@ -15,7 +15,7 @@ def main():
     subnet_address_space = config.get("subnet_address_space")
     private_ip_address = config.get("private_ip_address")
 
-    resource_group = resources.ResourceGroup("playground-wozorio", tags=TAGS)
+    resource_group = resources.ResourceGroup("playground", tags=TAGS)
 
     virtual_network = create_virtual_network(
         "vnet",
