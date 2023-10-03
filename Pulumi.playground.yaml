@@ -1,3 +1,6 @@
 config:
   azure-native:location: WestEurope
-  pulumi-azure-linux-vm:adminUsername: wozorio
+  pulumi-azure-linux-vm:admin_username: wozorio
+  pulumi-azure-linux-vm:private_ip_address: 10.0.0.10
+  pulumi-azure-linux-vm:subnet_address_space: 10.0.0.0/28
+  pulumi-azure-linux-vm:virtual_network_address_space: 10.0.0.0/26
