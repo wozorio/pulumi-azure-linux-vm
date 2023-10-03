@@ -22,13 +22,13 @@ jobs:
 
       - uses: actions/setup-python@v4
 
-      # - name: Login to Azure
-      #   run: |
-      #     ./bash-scripts/azure-cli-login.sh \
-      #       ${{ secrets.SUBSCRIPTION_ID }} \
-      #       ${{ secrets.SERVICE_PRINCIPAL_ID }} \
-      #       ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
-      #       ${{ secrets.TENANT_ID }}
+      - name: Login to Azure
+        run: |
+          ./bash-scripts/azure-cli-login.sh \
+            ${{ secrets.SUBSCRIPTION_ID }} \
+            ${{ secrets.SERVICE_PRINCIPAL_ID }} \
+            ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
+            ${{ secrets.TENANT_ID }}
 
       - run: pip install -r requirements.txt
 
