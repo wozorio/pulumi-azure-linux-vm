@@ -33,7 +33,7 @@ def create_vm(name, resource_group_name, location, **kwargs):
             ],
         ),
         hardware_profile=compute.HardwareProfileArgs(
-            vm_size="Standard_B2s",
+            vm_size=kwargs.get("vm_size", "Standard_B2s"),
         ),
         storage_profile=compute.StorageProfileArgs(
             image_reference=compute.ImageReferenceArgs(
