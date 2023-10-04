@@ -4,7 +4,7 @@ from pulumi_azure_native import compute
 
 def create_vm(name, resource_group_name, location, **kwargs) -> None:
     """Create a Linux VM."""
-    ssh_public_key = read_file_content("id_rsa.pub")
+    ssh_public_key = read_file_content("id_rsa.pub").replace("\n", "")
 
     compute.VirtualMachine(
         name,
@@ -50,4 +50,4 @@ def create_vm(name, resource_group_name, location, **kwargs) -> None:
 def read_file_content(file_path) -> str:
     """Helper function to read file content."""
     with open(file_path, "r", encoding="utf-8") as file:
-        return file.read().replace("\n", "")
+        return file.read()
