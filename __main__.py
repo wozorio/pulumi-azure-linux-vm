@@ -7,7 +7,7 @@ from pulumi_azure_native import network, resources
 TAGS = {"created_by": "pulumi"}
 
 
-def main():
+def main() -> None:
     """The main function."""
     config = pulumi.Config()
     admin_username = config.get("admin_username")
@@ -79,7 +79,7 @@ def main():
     pulumi.export("Ubuntu VM public IP", public_ip.ip_address)
 
 
-def create_virtual_network(name, resource_group_name, location, **kwargs):
+def create_virtual_network(name: str, resource_group_name: str, location: str, **kwargs) -> network.VirtualNetwork:
     """Create a virtual network."""
     virtual_network = network.VirtualNetwork(
         name,
@@ -93,7 +93,7 @@ def create_virtual_network(name, resource_group_name, location, **kwargs):
     return virtual_network
 
 
-def create_subnet(name, resource_group_name, virtual_network_name, **kwargs):
+def create_subnet(name: str, resource_group_name: str, virtual_network_name: str, **kwargs) -> network.Subnet:
     """Create a subnet."""
     subnet = network.Subnet(
         name,
@@ -104,7 +104,7 @@ def create_subnet(name, resource_group_name, virtual_network_name, **kwargs):
     return subnet
 
 
-def create_public_ip(name, resource_group_name, location, **kwargs):
+def create_public_ip(name: str, resource_group_name: str, location: str, **kwargs) -> network.PublicIPAddress:
     """Create a public IP."""
     public_ip = network.PublicIPAddress(
         name,
@@ -119,7 +119,7 @@ def create_public_ip(name, resource_group_name, location, **kwargs):
     return public_ip
 
 
-def create_network_interface(name, resource_group_name, **kwargs):
+def create_network_interface(name: str, resource_group_name: str, **kwargs) -> network.NetworkInterface:
     """Create a network interface."""
     network_interface = network.NetworkInterface(
         name,
@@ -140,7 +140,9 @@ def create_network_interface(name, resource_group_name, **kwargs):
     return network_interface
 
 
-def create_network_security_group(name, resource_group_name, location, **kwargs):
+def create_network_security_group(
+    name: str, resource_group_name: str, location: str, **kwargs
+) -> network.NetworkSecurityGroup:
     """Create a network security group."""
     nsg = network.NetworkSecurityGroup(
         name, resource_group_name=resource_group_name, location=location, tags=kwargs.get("tags")
@@ -148,9 +150,9 @@ def create_network_security_group(name, resource_group_name, location, **kwargs)
     return nsg
 
 
-def create_nsg_rule(name, resource_group_name, network_security_group_name, **kwargs) -> network.SecurityRule:
+def create_nsg_rule(name: str, resource_group_name: str, network_security_group_name: str, **kwargs) -> None:
     """Create a NSG rule."""
-    nsg_rule = network.SecurityRule(
+    network.SecurityRule(
         name,
         resource_group_name=resource_group_name,
         network_security_group_name=network_security_group_name,
@@ -163,7 +165,6 @@ def create_nsg_rule(name, resource_group_name, network_security_group_name, **kw
         source_address_prefix=kwargs.get("source_address_prefix"),
         destination_address_prefix=kwargs.get("destination_address_prefix"),
     )
-    return nsg_rule
 
 
 if __name__ == "__main__":
