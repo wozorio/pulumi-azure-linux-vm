@@ -16,7 +16,7 @@ Pulumi Python code for deploying a Linux VM with Ubuntu 22.04 LTS (Jammy Jellyfi
    curl -fsSL https://get.pulumi.com | sh
    ```
 
-1. Clone the repository and change to it
+1. Clone the repository and change directory
 
    ```bash
    git clone https://github.com/wozorio/pulumi-azure-linux-vm.git
