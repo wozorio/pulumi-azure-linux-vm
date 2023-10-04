@@ -50,4 +50,4 @@ def create_vm(name, resource_group_name, location, **kwargs) -> None:
 def read_file_content(file_path) -> str:
     """Helper function to read file content."""
     with open(file_path, "r", encoding="utf-8") as file:
-        return file.read()
+        return file.read().replace("\n", "")
