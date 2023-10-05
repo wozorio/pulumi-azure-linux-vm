@@ -39,31 +39,28 @@ def main() -> None:
     )
 
     network_security_group = create_network_security_group("nsg", resource_group.name, resource_group.location, tags=TAGS)
-    pulumi.Output.all(resource_group.name, network_security_group.name).apply(
-        lambda args: create_nsg_rule(
-            "Allow-HTTP-From-Internet-To-VM",
-            args[0],
-            args[1],
-            priority=100,
-            protocol="Tcp",
-            source_port_range="*",
-            destination_port_range="80",
-            source_address_prefix="Internet",
-            destination_address_prefix=f"{private_ip_address}/32",
-        )
+    create_nsg_rule(
+        "Allow-HTTP-From-Internet-To-VM",
+        resource_group.name,
+        network_security_group.name.apply(lambda network_security_group_name: network_security_group_name),
+        priority=100,
+        protocol="Tcp",
+        source_port_range="*",
+        destination_port_range="80",
+        source_address_prefix="Internet",
+        destination_address_prefix=f"{private_ip_address}/32",
     )
-    pulumi.Output.all(resource_group.name, network_security_group.name).apply(
-        lambda args: create_nsg_rule(
-            "Allow-SSH-From-Internet-To-VM",
-            args[0],
-            args[1],
-            priority=200,
-            protocol="Tcp",
-            source_port_range="*",
-            destination_port_range="22",
-            source_address_prefix="Internet",
-            destination_address_prefix=f"{private_ip_address}/32",
-        )
+
+    create_nsg_rule(
+        "Allow-SSH-From-Internet-To-VM",
+        resource_group.name,
+        network_security_group.name.apply(lambda network_security_group_name: network_security_group_name),
+        priority=200,
+        protocol="Tcp",
+        source_port_range="*",
+        destination_port_range="22",
+        source_address_prefix="Internet",
+        destination_address_prefix=f"{private_ip_address}/32",
     )
 
     vm.create_vm(
@@ -76,7 +73,7 @@ def main() -> None:
         tags=TAGS,
     )
 
-    pulumi.export("Ubuntu VM public IP", public_ip.ip_address)
+    pulumi.export("Virtual machine FQDN", public_ip.dns_settings.apply(lambda dns: dns.fqdn))
 
 
 def create_virtual_network(name: str, resource_group_name: str, location: str, **kwargs) -> network.VirtualNetwork:
