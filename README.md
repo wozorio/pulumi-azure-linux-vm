@@ -8,6 +8,8 @@ Pulumi Python code for deploying a Linux VM with Ubuntu 22.04 LTS (Jammy Jellyfi
 
 ## Running it locally
 
+To be able to run Pulumi locally, ensure the prerequisites below are fulfilled.
+
 ### Prerequisites
 
 1. Install Pulumi
