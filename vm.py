@@ -11,14 +11,14 @@ def create_vm(name: str, resource_group_name: str, location: str, **kwargs) -> N
         resource_group_name=resource_group_name,
         location=location,
         os_profile=compute.OSProfileArgs(
-            admin_username=kwargs.get("admin_username"),
+            admin_username=kwargs["admin_username"],
             computer_name=name,
             linux_configuration=compute.LinuxConfigurationArgs(
                 disable_password_authentication=True,
                 ssh=compute.SshConfigurationArgs(
                     public_keys=[
                         compute.SshPublicKeyArgs(
-                            path=(f"/home/{kwargs.get('admin_username')}/.ssh/authorized_keys"),
+                            path=(f"/home/{kwargs['admin_username']}/.ssh/authorized_keys"),
                             key_data=ssh_public_key,
                         )
                     ],
@@ -28,7 +28,7 @@ def create_vm(name: str, resource_group_name: str, location: str, **kwargs) -> N
         network_profile=compute.NetworkProfileArgs(
             network_interfaces=[
                 compute.NetworkInterfaceReferenceArgs(
-                    id=kwargs.get("network_interface_id"),
+                    id=kwargs["network_interface_id"],
                 ),
             ],
         ),
@@ -43,7 +43,7 @@ def create_vm(name: str, resource_group_name: str, location: str, **kwargs) -> N
                 version=kwargs.get("version", "latest"),
             ),
         ),
-        tags=kwargs.get("tags"),
+        tags=kwargs["tags"],
     )
 
 
