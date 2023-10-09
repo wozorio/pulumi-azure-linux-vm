@@ -27,10 +27,6 @@ def main() -> None:
 
     subnet = create_subnet("snet", resource_group.name, virtual_network.name, subnet_address_space=subnet_address_space)
 
-    public_ip = create_public_ip(
-        "pip-ubuntu", resource_group.name, resource_group.location, domain_name_label="vm-ubuntu", tags=TAGS
-    )
-
     network_security_group = create_network_security_group("nsg", resource_group.name, resource_group.location, tags=TAGS)
     create_nsg_rule(
         "Allow-HTTP-From-Internet-To-VM",
@@ -56,13 +52,18 @@ def main() -> None:
         destination_address_prefix=f"{private_ip_address}/32",
     )
 
+    associate_subnet_with_nsg(subnet.id, network_security_group.id)
+
+    public_ip = create_public_ip(
+        "pip-ubuntu", resource_group.name, resource_group.location, domain_name_label="vm-ubuntu", tags=TAGS
+    )
+
     network_interface = create_network_interface(
         "nic_ubuntu",
         resource_group.name,
         subnet_id=subnet.id,
         private_ip_address=private_ip_address,
         public_ip_address_id=public_ip.id,
-        network_security_group_id=network_security_group.id,
         tags=TAGS,
     )
 
@@ -104,21 +105,6 @@ def create_subnet(name: str, resource_group_name: str, virtual_network_name: str
     return subnet
 
 
-def create_public_ip(name: str, resource_group_name: str, location: str, **kwargs) -> network.PublicIPAddress:
-    """Create a public IP."""
-    public_ip = network.PublicIPAddress(
-        name,
-        resource_group_name=resource_group_name,
-        location=location,
-        public_ip_allocation_method=kwargs.get("public_ip_allocation_method", "Dynamic"),
-        sku=network.PublicIPAddressSkuArgs(name=kwargs.get("sku_name", "Basic")),
-        dns_settings=network.PublicIPAddressDnsSettingsArgs(domain_name_label=kwargs["domain_name_label"]),
-        public_ip_address_version=kwargs.get("public_ip_address_version", "IPv4"),
-        tags=kwargs["tags"],
-    )
-    return public_ip
-
-
 def create_network_security_group(
     name: str, resource_group_name: str, location: str, **kwargs
 ) -> network.NetworkSecurityGroup:
@@ -144,6 +130,28 @@ def create_nsg_rule(name: str, resource_group_name: str, network_security_group_
     )
 
 
+def associate_subnet_with_nsg(subnet_id: str, network_security_group_id: str) -> None:
+    """Associate a subnet with a NSG."""
+    network.SubnetNetworkSecurityGroupAssociation(
+        "subnet-to-nsg", subnet_id=subnet_id, network_security_group_id=network_security_group_id
+    )
+
+
+def create_public_ip(name: str, resource_group_name: str, location: str, **kwargs) -> network.PublicIPAddress:
+    """Create a public IP."""
+    public_ip = network.PublicIPAddress(
+        name,
+        resource_group_name=resource_group_name,
+        location=location,
+        public_ip_allocation_method=kwargs.get("public_ip_allocation_method", "Dynamic"),
+        sku=network.PublicIPAddressSkuArgs(name=kwargs.get("sku_name", "Basic")),
+        dns_settings=network.PublicIPAddressDnsSettingsArgs(domain_name_label=kwargs["domain_name_label"]),
+        public_ip_address_version=kwargs.get("public_ip_address_version", "IPv4"),
+        tags=kwargs["tags"],
+    )
+    return public_ip
+
+
 def create_network_interface(name: str, resource_group_name: str, **kwargs) -> network.NetworkInterface:
     """Create a network interface."""
     network_interface = network.NetworkInterface(
@@ -160,7 +168,6 @@ def create_network_interface(name: str, resource_group_name: str, **kwargs) -> n
                 ),
             )
         ],
-        network_security_group=network.NetworkSecurityGroupArgs(id=kwargs["network_security_group_id"]),
         tags=kwargs["tags"],
     )
     return network_interface
