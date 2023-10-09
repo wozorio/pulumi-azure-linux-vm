@@ -10,7 +10,6 @@ readme = "README.md"
 python = "^3.10"
 pulumi = "^3.86.0"
 pulumi-azure-native = "^2.9.0"
-pulumi-azure = "^5.52.0"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -1,7 +1,6 @@
 """An Azure RM Python Pulumi program"""
 
 import pulumi
-import pulumi_azure as azure
 import vm
 from pulumi_azure_native import network, resources
 
@@ -32,15 +31,6 @@ def main() -> None:
         "pip-ubuntu", resource_group.name, resource_group.location, domain_name_label="vm-ubuntu", tags=TAGS
     )
 
-    network_interface = create_network_interface(
-        "nic_ubuntu",
-        resource_group.name,
-        subnet_id=subnet.id,
-        private_ip_address=private_ip_address,
-        public_ip_address_id=public_ip.id,
-        tags=TAGS,
-    )
-
     network_security_group = create_network_security_group("nsg", resource_group.name, resource_group.location, tags=TAGS)
     create_nsg_rule(
         "Allow-HTTP-From-Internet-To-VM",
@@ -66,6 +56,16 @@ def main() -> None:
         destination_address_prefix=f"{private_ip_address}/32",
     )
 
+    network_interface = create_network_interface(
+        "nic_ubuntu",
+        resource_group.name,
+        subnet_id=subnet.id,
+        private_ip_address=private_ip_address,
+        public_ip_address_id=public_ip.id,
+        network_security_group_id=network_security_group.id,
+        tags=TAGS,
+    )
+
     vm.create_vm(
         "ubuntu",
         resource_group.name,
@@ -75,8 +75,6 @@ def main() -> None:
         subnet_id=subnet.id,
         tags=TAGS,
     )
-
-    associate_network_interface_with_nsg(network_interface.id, network_security_group.id)
 
     pulumi.export("Virtual machine FQDN", public_ip.dns_settings.apply(lambda dns: dns.fqdn))
 
@@ -121,27 +119,6 @@ def create_public_ip(name: str, resource_group_name: str, location: str, **kwarg
     return public_ip
 
 
-def create_network_interface(name: str, resource_group_name: str, **kwargs) -> network.NetworkInterface:
-    """Create a network interface."""
-    network_interface = network.NetworkInterface(
-        name,
-        resource_group_name=resource_group_name,
-        ip_configurations=[
-            network.NetworkInterfaceIPConfigurationArgs(
-                name="ipconfig",
-                subnet=network.SubnetArgs(id=kwargs["subnet_id"]),
-                private_ip_allocation_method=kwargs.get("private_ip_allocation_method", "Static"),
-                private_ip_address=kwargs["private_ip_address"],
-                public_ip_address=network.PublicIPAddressArgs(
-                    id=kwargs["public_ip_address_id"],
-                ),
-            )
-        ],
-        tags=kwargs["tags"],
-    )
-    return network_interface
-
-
 def create_network_security_group(
     name: str, resource_group_name: str, location: str, **kwargs
 ) -> network.NetworkSecurityGroup:
@@ -167,9 +144,26 @@ def create_nsg_rule(name: str, resource_group_name: str, network_security_group_
     )
 
 
-def associate_network_interface_with_nsg(network_interface_id: str, network_security_group_id: str) -> None:
-    """Associate a network interface with a NSG."""
-    azure.network.NetworkInterfaceSecurityGroupAssociation(network_interface_id, network_security_group_id)
+def create_network_interface(name: str, resource_group_name: str, **kwargs) -> network.NetworkInterface:
+    """Create a network interface."""
+    network_interface = network.NetworkInterface(
+        name,
+        resource_group_name=resource_group_name,
+        ip_configurations=[
+            network.NetworkInterfaceIPConfigurationArgs(
+                name="ipconfig",
+                subnet=network.SubnetArgs(id=kwargs["subnet_id"]),
+                private_ip_allocation_method=kwargs.get("private_ip_allocation_method", "Static"),
+                private_ip_address=kwargs["private_ip_address"],
+                public_ip_address=network.PublicIPAddressArgs(
+                    id=kwargs["public_ip_address_id"],
+                ),
+            )
+        ],
+        network_security_group=network.NetworkSecurityGroupArgs(id=kwargs["network_security_group_id"]),
+        tags=kwargs["tags"],
+    )
+    return network_interface
 
 
 if __name__ == "__main__":
