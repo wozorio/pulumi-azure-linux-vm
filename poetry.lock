@@ -234,6 +234,22 @@ semver = ">=2.13,<3.0"
 six = ">=1.12,<2.0"
 
 [[package]]
+name = "pulumi-azure"
+version = "5.52.0"
+description = "A Pulumi package for creating and managing Microsoft Azure cloud resources, based on the Terraform azurerm provider. We recommend using the [Azure Native provider](https://github.com/pulumi/pulumi-azure-native) to provision Azure infrastructure. Azure Native provides complete coverage of Azure resources and same-day access to new resources and resource updates."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pulumi_azure-5.52.0-py3-none-any.whl", hash = "sha256:80791c655283436b004a3c14717ec8509d9aa18c0ff3977f4c869c4ac77a3d4d"},
+    {file = "pulumi_azure-5.52.0.tar.gz", hash = "sha256:1db47e6258b121c95908bd6a8a12d0242cf8cfb6b32a19f1da066b89849880d5"},
+]
+
+[package.dependencies]
+parver = ">=0.2.1"
+pulumi = ">=3.0.0,<4.0.0"
+semver = ">=2.8.1"
+
+[[package]]
 name = "pulumi-azure-native"
 version = "2.9.0"
 description = "A native Pulumi package for creating and managing Azure resources."
@@ -394,4 +410,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "b08e7c2e8d0a5b4fd33c9c82df70c0d9b65d48e69a351f0201dc5fe55d7aba90"
+content-hash = "d769e7300e76d2839044ab2d7504e84c19e00ba258913dfd5d10b3d562e8b1b8"

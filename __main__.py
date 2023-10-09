@@ -1,6 +1,7 @@
 """An Azure RM Python Pulumi program"""
 
 import pulumi
+import pulumi_azure as azure
 import vm
 from pulumi_azure_native import network, resources
 
@@ -168,7 +169,7 @@ def create_nsg_rule(name: str, resource_group_name: str, network_security_group_
 
 def associate_network_interace_with_nsg(network_interface_id: str, network_security_group_id: str) -> None:
     """Associate a network interface with a NSG."""
-    network.NetworkInterfaceSecurityGroupAssociation(network_interface_id, network_security_group_id)
+    azure.network.NetworkInterfaceSecurityGroupAssociation(network_interface_id, network_security_group_id)
 
 
 if __name__ == "__main__":
