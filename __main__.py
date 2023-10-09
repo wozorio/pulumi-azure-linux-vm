@@ -75,6 +75,8 @@ def main() -> None:
         tags=TAGS,
     )
 
+    associate_network_interace_with_nsg(network_interface.id, network_security_group.id)
+
     pulumi.export("Virtual machine FQDN", public_ip.dns_settings.apply(lambda dns: dns.fqdn))
 
 
@@ -162,6 +164,11 @@ def create_nsg_rule(name: str, resource_group_name: str, network_security_group_
         source_address_prefix=kwargs["source_address_prefix"],
         destination_address_prefix=kwargs["destination_address_prefix"],
     )
+
+
+def associate_network_interace_with_nsg(network_interface_id: str, network_security_group_id: str) -> None:
+    """Associate a network interface with a NSG."""
+    network.NetworkInterfaceSecurityGroupAssociation(network_interface_id, network_security_group_id)
 
 
 if __name__ == "__main__":
