@@ -14,13 +14,13 @@ class NSGRule:
     """Represent the properties of a NSG rule."""
 
     priority: int
-    direction: str = "Inbound"
-    access: str = "Allow"
+    direction: str
+    access: str
     protocol: str
-    source_port_range = str
-    destination_port_range = int
-    source_address_prefix = str
-    destination_address_prefix = str
+    source_port_range: str
+    destination_port_range: int
+    source_address_prefix: str
+    destination_address_prefix: str
 
 
 def main() -> None:
@@ -40,6 +40,8 @@ def main() -> None:
         network_security_group.name.apply(lambda network_security_group_name: network_security_group_name),
         NSGRule(
             priority=100,
+            direction="Inbound",
+            access="Allow",
             protocol="Tcp",
             source_port_range="*",
             destination_port_range="80",
@@ -54,6 +56,8 @@ def main() -> None:
         network_security_group.name.apply(lambda network_security_group_name: network_security_group_name),
         NSGRule(
             priority=200,
+            direction="Inbound",
+            access="Allow",
             protocol="Tcp",
             source_port_range="*",
             destination_port_range="22",
