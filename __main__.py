@@ -1,10 +1,26 @@
 """An Azure RM Python Pulumi program"""
 
+import dataclasses
+
 import pulumi
 import vm
 from pulumi_azure_native import network, resources
 
 TAGS = {"created_by": "pulumi"}
+
+
+@dataclasses.dataclass
+class NSGRule:
+    """Represent the properties of a NSG rule."""
+
+    priority: int
+    direction: str = "Inbound"
+    access: str = "Allow"
+    protocol: str
+    source_port_range = str
+    destination_port_range = int
+    source_address_prefix = str
+    destination_address_prefix = str
 
 
 def main() -> None:
@@ -17,37 +33,41 @@ def main() -> None:
 
     resource_group = resources.ResourceGroup("playground", tags=TAGS)
 
-    virtual_network = create_virtual_network(
-        "vnet",
-        resource_group.name,
-        resource_group.location,
-        virtual_network_address_space=virtual_network_address_space,
-        tags=TAGS,
-    )
-
     network_security_group = create_network_security_group("nsg", resource_group.name, resource_group.location, tags=TAGS)
     create_nsg_rule(
         "Allow-HTTP-From-Internet-To-VM",
         resource_group.name,
         network_security_group.name.apply(lambda network_security_group_name: network_security_group_name),
-        priority=100,
-        protocol="Tcp",
-        source_port_range="*",
-        destination_port_range="80",
-        source_address_prefix="Internet",
-        destination_address_prefix=f"{private_ip_address}/32",
+        NSGRule(
+            priority=100,
+            protocol="Tcp",
+            source_port_range="*",
+            destination_port_range="80",
+            source_address_prefix="Internet",
+            destination_address_prefix=f"{private_ip_address}/32",
+        ),
     )
 
     create_nsg_rule(
         "Allow-SSH-From-Internet-To-VM",
         resource_group.name,
         network_security_group.name.apply(lambda network_security_group_name: network_security_group_name),
-        priority=200,
-        protocol="Tcp",
-        source_port_range="*",
-        destination_port_range="22",
-        source_address_prefix="Internet",
-        destination_address_prefix=f"{private_ip_address}/32",
+        NSGRule(
+            priority=200,
+            protocol="Tcp",
+            source_port_range="*",
+            destination_port_range="22",
+            source_address_prefix="Internet",
+            destination_address_prefix=f"{private_ip_address}/32",
+        ),
+    )
+
+    virtual_network = create_virtual_network(
+        "vnet",
+        resource_group.name,
+        resource_group.location,
+        virtual_network_address_space=virtual_network_address_space,
+        tags=TAGS,
     )
 
     subnet = create_subnet(
@@ -84,6 +104,31 @@ def main() -> None:
     pulumi.export("Virtual machine FQDN", public_ip.dns_settings.apply(lambda dns: dns.fqdn))
 
 
+def create_network_security_group(
+    name: str, resource_group_name: str, location: str, **kwargs
+) -> network.NetworkSecurityGroup:
+    """Create a network security group."""
+    nsg = network.NetworkSecurityGroup(name, resource_group_name=resource_group_name, location=location, tags=kwargs["tags"])
+    return nsg
+
+
+def create_nsg_rule(name: str, resource_group_name: str, network_security_group_name: str, rule: NSGRule) -> None:
+    """Create a NSG rule."""
+    network.SecurityRule(
+        name,
+        resource_group_name=resource_group_name,
+        network_security_group_name=network_security_group_name,
+        priority=rule.priority,
+        direction=rule.direction,
+        access=rule.access,
+        protocol=rule.protocol,
+        source_port_range=rule.source_port_range,
+        destination_port_range=rule.destination_port_range,
+        source_address_prefix=rule.source_address_prefix,
+        destination_address_prefix=rule.destination_address_prefix,
+    )
+
+
 def create_virtual_network(name: str, resource_group_name: str, location: str, **kwargs) -> network.VirtualNetwork:
     """Create a virtual network."""
     virtual_network = network.VirtualNetwork(
@@ -96,31 +141,6 @@ def create_virtual_network(name: str, resource_group_name: str, location: str, *
         tags=kwargs["tags"],
     )
     return virtual_network
-
-
-def create_network_security_group(
-    name: str, resource_group_name: str, location: str, **kwargs
-) -> network.NetworkSecurityGroup:
-    """Create a network security group."""
-    nsg = network.NetworkSecurityGroup(name, resource_group_name=resource_group_name, location=location, tags=kwargs["tags"])
-    return nsg
-
-
-def create_nsg_rule(name: str, resource_group_name: str, network_security_group_name: str, **kwargs) -> None:
-    """Create a NSG rule."""
-    network.SecurityRule(
-        name,
-        resource_group_name=resource_group_name,
-        network_security_group_name=network_security_group_name,
-        priority=kwargs["priority"],
-        direction=kwargs.get("direction", "Inbound"),
-        access=kwargs.get("access", "Allow"),
-        protocol=kwargs.get("protocol", "Tcp"),
-        source_port_range=kwargs["source_port_range"],
-        destination_port_range=kwargs["destination_port_range"],
-        source_address_prefix=kwargs["source_address_prefix"],
-        destination_address_prefix=kwargs["destination_address_prefix"],
-    )
 
 
 def create_subnet(name: str, resource_group_name: str, virtual_network_name: str, **kwargs) -> network.Subnet:
