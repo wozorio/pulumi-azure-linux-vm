@@ -49,7 +49,6 @@ def main() -> None:
             destination_address_prefix=f"{private_ip_address}/32",
         ),
     )
-
     create_nsg_rule(
         "Allow-SSH-From-Internet-To-VM",
         resource_group.name,
