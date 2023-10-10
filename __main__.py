@@ -179,6 +179,7 @@ def create_network_interface(name: str, resource_group_name: str, **kwargs) -> n
     network_interface = network.NetworkInterface(
         name,
         resource_group_name=resource_group_name,
+        enable_accelerated_networking=True,
         ip_configurations=[
             network.NetworkInterfaceIPConfigurationArgs(
                 name="ipconfig",
