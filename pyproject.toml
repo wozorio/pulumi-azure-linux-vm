@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 pulumi = "^3.97.0"
-pulumi-azure-native = "^2.21.2"
+pulumi-azure-native = "^2.22.0"
 
 
 [tool.poetry.group.dev.dependencies]
