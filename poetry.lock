@@ -283,12 +283,12 @@ files = [
 
 [[package]]
 name = "pulumi"
-version = "3.103.1"
+version = "3.104.2"
 description = "Pulumi's Python SDK"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pulumi-3.103.1-py3-none-any.whl", hash = "sha256:f091cf3ce42eea67e732f65a9c5a7b5290ae23d67b44478c03795c512dc46605"},
+    {file = "pulumi-3.104.2-py3-none-any.whl", hash = "sha256:a56c9b5e5261d99c06f2709f68b3eba0e7907aee492c53447bc7177a241090ad"},
 ]
 
 [package.dependencies]
@@ -334,8 +334,8 @@ astroid = ">=3.0.1,<=3.1.0-dev0"
 colorama = {version = ">=0.4.5", markers = "sys_platform == \"win32\""}
 dill = [
     {version = ">=0.2", markers = "python_version < \"3.11\""},
-    {version = ">=0.3.7", markers = "python_version >= \"3.12\""},
     {version = ">=0.3.6", markers = "python_version >= \"3.11\" and python_version < \"3.12\""},
+    {version = ">=0.3.7", markers = "python_version >= \"3.12\""},
 ]
 isort = ">=4.2.5,<5.13.0 || >5.13.0,<6"
 mccabe = ">=0.6,<0.8"
@@ -465,4 +465,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "61ba9c8954e38b863a29deb25973c00decdfdb2bb61bcee084c357d11ea42bd3"
+content-hash = "4f4e1c718475159391d34d53d4d0d1f0086aa2e94d6fbe142c0b7a35e06362af"
