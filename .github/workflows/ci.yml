@@ -14,11 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Checkout bash-scripts repo
-        uses: actions/checkout@v4
-        with:
-          repository: wozorio/bash-scripts
-          path: bash-scripts
 
       - name: Azure Login
         uses: azure/login@v2
@@ -50,7 +45,7 @@ jobs:
           stack-name: playground
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }} \
-          ARM_CLIENT_ID: ${{ secrets.SERVICE_PRINCIPAL_ID }} \
-          ARM_CLIENT_SECRET: ${{ secrets.SERVICE_PRINCIPAL_SECRET }} \
-          ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }} \
+          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }} \
+          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }} \
+          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
