@@ -9,7 +9,7 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pulumi = "^3.115.2"
+pulumi = "^3.116.1"
 pulumi-azure-native = "^2.40.0"
 
 
