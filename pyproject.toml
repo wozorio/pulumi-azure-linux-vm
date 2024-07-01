@@ -14,7 +14,7 @@ pulumi-azure-native = "^2.47.1"
 
 
 [tool.poetry.group.dev.dependencies]
-pylint = "^3.2.3"
+pylint = "^3.2.5"
 
 [build-system]
 requires = ["poetry-core"]
