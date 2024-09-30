@@ -39,7 +39,7 @@ jobs:
       - name: Run pylint
         run: poetry run pylint *.py
 
-      - uses: pulumi/actions@v5
+      - uses: pulumi/actions@v6
         with:
           command: preview
           stack-name: playground
