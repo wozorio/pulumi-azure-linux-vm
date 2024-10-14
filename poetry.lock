@@ -275,13 +275,13 @@ six = ">=1.12,<2.0"
 
 [[package]]
 name = "pulumi-azure-native"
-version = "2.65.0"
+version = "2.66.0"
 description = "A native Pulumi package for creating and managing Azure resources."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pulumi_azure_native-2.65.0-py3-none-any.whl", hash = "sha256:66f31e05bbe371c076a73b84d5020e712407cbf255db52edf0f41a2ba69080d2"},
-    {file = "pulumi_azure_native-2.65.0.tar.gz", hash = "sha256:6d38877763244c035eb238c21b722182d64c31be4702d97832037d4af694f7b7"},
+    {file = "pulumi_azure_native-2.66.0-py3-none-any.whl", hash = "sha256:0b0f289907d638b18f836743028650681f9cdc250744ab317a0a2480b3335c81"},
+    {file = "pulumi_azure_native-2.66.0.tar.gz", hash = "sha256:247511a5fa14750c97aaf1115202add9589360112c0b5a26996fd7ec33325f17"},
 ]
 
 [package.dependencies]
@@ -437,4 +437,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "3d1ae4e45af69429dca78968e8c07344d91967aad1c46b3ec1693a7e4bcef844"
+content-hash = "f5ceda0d2fb18120d47b81578e8d7f6d9a2803437714e5340bd7844c4552fea8"
