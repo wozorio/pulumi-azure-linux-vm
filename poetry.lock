@@ -260,12 +260,12 @@ files = [
 
 [[package]]
 name = "pulumi"
-version = "3.141.0"
+version = "3.142.0"
 description = "Pulumi's Python SDK"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "pulumi-3.141.0-py3-none-any.whl", hash = "sha256:a5529cb8776fcfe4aad341252c26af673e67741445ed0d10a65b77486ee2a6bd"},
+    {file = "pulumi-3.142.0-py3-none-any.whl", hash = "sha256:659a58a26aa36f585046750f01c3f20113c71fa065ee5a4487c775a9ef98b9b2"},
 ]
 
 [package.dependencies]
@@ -441,4 +441,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "c2a84210274c21e85bbca522b03ff639ab511752cc0290a274dd25f1f9eaf2f0"
+content-hash = "8c190b5dfb73313df2ebb7063b4210f37be5bb81885e5f97f659a675787fe4db"
