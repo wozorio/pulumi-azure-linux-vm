@@ -1,4 +1,5 @@
 """Module to deploy a Linux virtual machine."""
+
 from pulumi_azure_native import compute
 
 
@@ -38,8 +39,8 @@ def create_vm(name: str, resource_group_name: str, location: str, **kwargs) -> N
         storage_profile=compute.StorageProfileArgs(
             image_reference=compute.ImageReferenceArgs(
                 publisher=kwargs.get("publisher", "canonical"),
-                offer=kwargs.get("offer", "0001-com-ubuntu-server-jammy"),
-                sku=kwargs.get("sku", "22_04-lts-gen2"),
+                offer=kwargs.get("offer", "ubuntu-24_04-lts"),
+                sku=kwargs.get("sku", "server"),
                 version=kwargs.get("version", "latest"),
             ),
         ),
