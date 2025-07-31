@@ -2,7 +2,7 @@
 name = "pulumi-azure-linux-vm"
 version = "0.1.0"
 description = ""
-authors = ["Wellington Ozorio <well.ozorio@gmail.com>"]
+authors = ["Wellington Ozorio <wozorio@duck.com>"]
 license = "MIT"
 readme = "README.md"
 package-mode = false
