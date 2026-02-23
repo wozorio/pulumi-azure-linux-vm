@@ -14,7 +14,7 @@ pulumi = "^3.220.0"
 
 
 [tool.poetry.group.dev.dependencies]
-pylint = "^4.0.4"
+pylint = "^4.0.5"
 
 [build-system]
 requires = ["poetry-core"]
