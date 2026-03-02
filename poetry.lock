@@ -222,6 +222,18 @@ files = [
 ]
 
 [[package]]
+name = "packaging"
+version = "26.0"
+description = "Core utilities for Python packages"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "packaging-26.0-py3-none-any.whl", hash = "sha256:b36f1fef9334a5588b4166f8bcd26a14e521f2b55e6b9de3aaa80d3ff7a37529"},
+    {file = "packaging-26.0.tar.gz", hash = "sha256:00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4"},
+]
+
+[[package]]
 name = "parver"
 version = "0.5"
 description = "Parse and manipulate version numbers."
@@ -295,13 +307,13 @@ files = [
 
 [[package]]
 name = "pulumi"
-version = "3.223.0"
+version = "3.224.0"
 description = "Pulumi's Python SDK"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "pulumi-3.223.0-py3-none-any.whl", hash = "sha256:1ade988a885966efc0f77ee9afc8dd2efd863b86951ca70ae28ffe775201c6ad"},
+    {file = "pulumi-3.224.0-py3-none-any.whl", hash = "sha256:2045987052c39740dcdb13d8845868106aebdc91792aa25ef82b06797ebf0a8e"},
 ]
 
 [package.dependencies]
@@ -311,6 +323,7 @@ grpcio = [
     {version = ">=1.68.1,<2", markers = "python_version < \"3.14\""},
     {version = ">=1.75.1,<2", markers = "python_version >= \"3.14\""},
 ]
+packaging = ">=26.0"
 pip = ">=24.3.1"
 protobuf = ">=3.20.3,<7"
 pyyaml = ">=6.0,<7.0"
@@ -510,4 +523,4 @@ markers = {dev = "python_version == \"3.10\""}
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "ef0fe0f9a0d05354348d6b377db8ce9720bba1e58491d8d96e1b594f708cb4fd"
+content-hash = "777eaf9bec45d2936e01933438a618405f8bf51457a52d0d06ae265875bac073"
