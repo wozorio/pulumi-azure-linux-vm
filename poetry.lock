@@ -444,18 +444,6 @@ pep8test = ["flake8", "pep8-naming"]
 test = ["hypothesis", "pretend", "pytest"]
 
 [[package]]
-name = "pip"
-version = "25.2"
-description = "The PyPA recommended tool for installing Python packages."
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-files = [
-    {file = "pip-25.2-py3-none-any.whl", hash = "sha256:6d67a2b4e7f14d8b31b8b52648866fa717f45a1eb70e83002f4331d07e953717"},
-    {file = "pip-25.2.tar.gz", hash = "sha256:578283f006390f85bb6282dffb876454593d637f5d1be494b5202ce4877e71f2"},
-]
-
-[[package]]
 name = "platformdirs"
 version = "4.3.8"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a `user data dir`."
@@ -495,13 +483,13 @@ files = [
 
 [[package]]
 name = "pulumi"
-version = "3.225.1"
+version = "3.226.0"
 description = "Pulumi's Python SDK"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "pulumi-3.225.1-py3-none-any.whl", hash = "sha256:06ba862805456c78d90b2c77c48e2fada1dac418df6ead9320f72bce542769a7"},
+    {file = "pulumi-3.226.0-py3-none-any.whl", hash = "sha256:ad35faa3c67d8cc53908b9442fe32bdb7aa98dedfca4ae1b4791c0a44e32adb6"},
 ]
 
 [package.dependencies]
@@ -516,7 +504,6 @@ opentelemetry-exporter-otlp-proto-grpc = ">=1.20.0"
 opentelemetry-instrumentation-grpc = ">=0.41b0"
 opentelemetry-sdk = ">=1.20.0"
 packaging = ">=26.0"
-pip = ">=24.3.1"
 protobuf = ">=3.20.3,<7"
 pyyaml = ">=6.0,<7.0"
 semver = ">=3.0,<4.0"
@@ -826,4 +813,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "b1b802225927f34e7ad3b5e5e2948d0b904bbb122ef3a576478dbfa9de025040"
+content-hash = "9ff061ee390359bc420311ae01f78393394440857e3cf190966a65b3319315c5"
