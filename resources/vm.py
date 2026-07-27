@@ -1,11 +1,13 @@
 """Module to deploy a Linux virtual machine."""
 
+from pathlib import Path
+
 from pulumi_azure_native import compute
 
 
 def create_vm(name: str, resource_group_name: str, location: str, **kwargs) -> None:
     """Create a Linux VM."""
-    ssh_public_key = read_file_content("id_rsa.pub").replace("\n", "")
+    ssh_public_key = Path("id_rsa.pub").read_text(encoding="utf-8").replace("\n", "")
 
     compute.VirtualMachine(
         name,
@@ -21,7 +23,7 @@ def create_vm(name: str, resource_group_name: str, location: str, **kwargs) -> N
                         compute.SshPublicKeyArgs(
                             path=(f"/home/{kwargs['admin_username']}/.ssh/authorized_keys"),
                             key_data=ssh_public_key,
-                        )
+                        ),
                     ],
                 ),
             ),
@@ -46,9 +48,3 @@ def create_vm(name: str, resource_group_name: str, location: str, **kwargs) -> N
         ),
         tags=kwargs["tags"],
     )
-
-
-def read_file_content(file_path: str) -> str:
-    """Helper function to read file content."""
-    with open(file_path, "r", encoding="utf-8") as file:
-        return file.read()

@@ -1,21 +1,17 @@
-[tool.poetry]
+[project]
 name = "pulumi-azure-linux-vm"
 version = "0.1.0"
-description = ""
-authors = ["Wellington Ozorio <wozorio@duck.com>"]
+description = "Pulumi Python code for deploying a Linux VM with Ubuntu 22.04 LTS (Jammy Jellyfish) in Azure"
+authors = [
+    { name = "Wellington Ozorio", email = "wozorio@duck.com" }
+]
 license = "MIT"
 readme = "README.md"
-package-mode = false
+requires-python = ">=3.12"
+dependencies = [
+    "pulumi>=3.229.0",
+    "pulumi-azure-native>=3.16.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-pulumi-azure-native = "^3.16.0"
-pulumi = "^3.229.0"
-
-
-[tool.poetry.group.dev.dependencies]
-pylint = "^4.0.5"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv]
+managed = true

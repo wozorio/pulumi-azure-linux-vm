@@ -12,10 +12,11 @@ To be able to run Pulumi locally, ensure the prerequisites below are fulfilled.
 
 ### Prerequisites
 
-1. Install Pulumi
+1. Install Pulumi and uv
 
    ```bash
    curl -fsSL https://get.pulumi.com | sh
+   curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
 1. Clone the repository and change directory
@@ -28,8 +29,7 @@ To be able to run Pulumi locally, ensure the prerequisites below are fulfilled.
 1. Install requirements
 
    ```bash
-   pip install poetry
-   poetry install --without dev
+   uv sync
    ```
 
 1. Login to Azure

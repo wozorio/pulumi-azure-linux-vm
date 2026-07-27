@@ -2,5 +2,6 @@ name: pulumi-azure-linux-vm
 runtime:
   name: python
   options:
+    toolchain: uv
     virtualenv: .venv
 description: A minimal Azure Native Python Pulumi program

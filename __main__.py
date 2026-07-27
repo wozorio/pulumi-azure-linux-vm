@@ -1,15 +1,14 @@
-"""An Azure RM Python Pulumi program"""
-
 import dataclasses
 
 import pulumi
 from pulumi_azure_native import network, resources
+
 from resources import vm
 
 TAGS = {"created_by": "pulumi"}
 
 
-@dataclasses.dataclass
+@dataclasses.dataclass(frozen=True)
 class NSGRule:
     """Represent the properties of a NSG rule."""
 
@@ -24,7 +23,7 @@ class NSGRule:
 
 
 def main() -> None:
-    """The main function."""
+    """Run the Pulumi program."""
     config = pulumi.Config()
     admin_username = config.get("admin_username")
     virtual_network_address_space = config.get("virtual_network_address_space")
@@ -82,7 +81,11 @@ def main() -> None:
     )
 
     public_ip = create_public_ip(
-        "pip-ubuntu", resource_group.name, resource_group.location, domain_name_label="vm-ubuntu", tags=TAGS
+        "pip-ubuntu",
+        resource_group.name,
+        resource_group.location,
+        domain_name_label="vm-ubuntu",
+        tags=TAGS,
     )
 
     network_interface = create_network_interface(
@@ -108,11 +111,18 @@ def main() -> None:
 
 
 def create_network_security_group(
-    name: str, resource_group_name: str, location: str, **kwargs
+    name: str,
+    resource_group_name: str,
+    location: str,
+    **kwargs,
 ) -> network.NetworkSecurityGroup:
     """Create a network security group."""
-    nsg = network.NetworkSecurityGroup(name, resource_group_name=resource_group_name, location=location, tags=kwargs["tags"])
-    return nsg
+    return network.NetworkSecurityGroup(
+        name,
+        resource_group_name=resource_group_name,
+        location=location,
+        tags=kwargs["tags"],
+    )
 
 
 def create_nsg_rule(name: str, resource_group_name: str, network_security_group_name: str, rule: NSGRule) -> None:
@@ -134,7 +144,7 @@ def create_nsg_rule(name: str, resource_group_name: str, network_security_group_
 
 def create_virtual_network(name: str, resource_group_name: str, location: str, **kwargs) -> network.VirtualNetwork:
     """Create a virtual network."""
-    virtual_network = network.VirtualNetwork(
+    return network.VirtualNetwork(
         name,
         resource_group_name=resource_group_name,
         location=location,
@@ -143,24 +153,22 @@ def create_virtual_network(name: str, resource_group_name: str, location: str, *
         ),
         tags=kwargs["tags"],
     )
-    return virtual_network
 
 
 def create_subnet(name: str, resource_group_name: str, virtual_network_name: str, **kwargs) -> network.Subnet:
     """Create a subnet."""
-    subnet = network.Subnet(
+    return network.Subnet(
         name,
         resource_group_name=resource_group_name,
         virtual_network_name=virtual_network_name,
         address_prefix=kwargs["subnet_address_space"],
         network_security_group=network.NetworkSecurityGroupArgs(id=kwargs["network_security_group_id"]),
     )
-    return subnet
 
 
 def create_public_ip(name: str, resource_group_name: str, location: str, **kwargs) -> network.PublicIPAddress:
     """Create a public IP."""
-    public_ip = network.PublicIPAddress(
+    return network.PublicIPAddress(
         name,
         resource_group_name=resource_group_name,
         location=location,
@@ -170,12 +178,11 @@ def create_public_ip(name: str, resource_group_name: str, location: str, **kwarg
         public_ip_address_version=kwargs.get("public_ip_address_version", "IPv4"),
         tags=kwargs["tags"],
     )
-    return public_ip
 
 
 def create_network_interface(name: str, resource_group_name: str, **kwargs) -> network.NetworkInterface:
     """Create a network interface."""
-    network_interface = network.NetworkInterface(
+    return network.NetworkInterface(
         name,
         resource_group_name=resource_group_name,
         ip_configurations=[
@@ -187,11 +194,10 @@ def create_network_interface(name: str, resource_group_name: str, **kwargs) -> n
                 public_ip_address=network.PublicIPAddressArgs(
                     id=kwargs["public_ip_address_id"],
                 ),
-            )
+            ),
         ],
         tags=kwargs["tags"],
     )
-    return network_interface
 
 
 if __name__ == "__main__":
