@@ -1,7 +1,7 @@
 [project]
 name = "pulumi-azure-linux-vm"
 version = "0.1.0"
-description = "Pulumi Python code for deploying a Linux VM with Ubuntu 22.04 LTS (Jammy Jellyfish) in Azure with GitHub Actions"
+description = "Pulumi Python code for deploying a Linux VM with Ubuntu 22.04 LTS (Jammy Jellyfish) in Azure"
 authors = [
     { name = "Wellington Ozorio", email = "wozorio@duck.com" }
 ]
