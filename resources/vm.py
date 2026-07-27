@@ -7,8 +7,7 @@ from pulumi_azure_native import compute
 
 def create_vm(name: str, resource_group_name: str, location: str, **kwargs) -> None:
     """Create a Linux VM."""
-    with Path.open("id_rsa.pub", encoding="utf-8") as file:
-        ssh_public_key = file.replace("\n", "")
+    ssh_public_key = Path("id_rsa.pub").read_text(encoding="utf-8").replace("\n", "")
 
     compute.VirtualMachine(
         name,
