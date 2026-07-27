@@ -4,6 +4,7 @@ import dataclasses
 
 import pulumi
 from pulumi_azure_native import network, resources
+
 from resources import vm
 
 TAGS = {"created_by": "pulumi"}

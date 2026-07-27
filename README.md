@@ -28,8 +28,7 @@ To be able to run Pulumi locally, ensure the prerequisites below are fulfilled.
 1. Install requirements
 
    ```bash
-   pip install poetry
-   poetry install --without dev
+   uv sync
    ```
 
 1. Login to Azure
