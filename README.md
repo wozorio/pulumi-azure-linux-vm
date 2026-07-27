@@ -4,20 +4,9 @@
 [![CI](https://github.com/wozorio/pulumi-azure-linux-vm/actions/workflows/ci.yml/badge.svg)](https://github.com/wozorio/pulumi-azure-linux-vm/actions/workflows/ci.yml)
 [![Deploy](https://github.com/wozorio/pulumi-azure-linux-vm/actions/workflows/deploy.yml/badge.svg)](https://github.com/wozorio/pulumi-azure-linux-vm/actions/workflows/deploy.yml)
 
-Pulumi Python code for deploying a Linux VM with Ubuntu 22.04 LTS (Jammy Jellyfish) in Azure with GitHub Actions.
+Pulumi Python code for deploying a Linux VM with Ubuntu 24.04 LTS in Azure.
 
 ## Running it locally
-
-To be able to run Pulumi locally, ensure the prerequisites below are fulfilled.
-
-### Prerequisites
-
-1. Install Pulumi and uv
-
-   ```bash
-   curl -fsSL https://get.pulumi.com | sh
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
 
 1. Clone the repository and change directory
 
