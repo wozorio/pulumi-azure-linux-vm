@@ -2,10 +2,16 @@
 
 from pathlib import Path
 
+from pulumi import Input
 from pulumi_azure_native import compute
 
 
-def create_vm(name: str, resource_group_name: str, location: str, **kwargs) -> None:
+def create_vm(
+    name: str,
+    resource_group_name: Input[str],
+    location: Input[str],
+    **kwargs,
+) -> None:
     """Create a Linux VM."""
     ssh_public_key = Path("id_rsa.pub").read_text(encoding="utf-8").replace("\n", "")
 

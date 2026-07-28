@@ -4,4 +4,5 @@ runtime:
   options:
     toolchain: uv
     virtualenv: .venv
+    typechecker: pyright
 description: A minimal Azure Native Python Pulumi program

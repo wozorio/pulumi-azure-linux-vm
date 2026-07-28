@@ -1,6 +1,7 @@
 import dataclasses
 
 import pulumi
+from pulumi import Input
 from pulumi_azure_native import network, resources
 
 from resources import vm
@@ -107,13 +108,16 @@ def main() -> None:
         tags=TAGS,
     )
 
-    pulumi.export("Virtual machine FQDN", public_ip.dns_settings.apply(lambda dns: dns.fqdn))
+    pulumi.export(
+        "Virtual machine FQDN",
+        public_ip.dns_settings.apply(lambda dns: dns.fqdn if dns else "Not configured"),
+    )
 
 
 def create_network_security_group(
     name: str,
-    resource_group_name: str,
-    location: str,
+    resource_group_name: Input[str],
+    location: Input[str],
     **kwargs,
 ) -> network.NetworkSecurityGroup:
     """Create a network security group."""
@@ -125,7 +129,12 @@ def create_network_security_group(
     )
 
 
-def create_nsg_rule(name: str, resource_group_name: str, network_security_group_name: str, rule: NSGRule) -> None:
+def create_nsg_rule(
+    name: str,
+    resource_group_name: Input[str],
+    network_security_group_name: Input[str],
+    rule: NSGRule,
+) -> None:
     """Create a NSG rule."""
     network.SecurityRule(
         name,
@@ -142,7 +151,12 @@ def create_nsg_rule(name: str, resource_group_name: str, network_security_group_
     )
 
 
-def create_virtual_network(name: str, resource_group_name: str, location: str, **kwargs) -> network.VirtualNetwork:
+def create_virtual_network(
+    name: str,
+    resource_group_name: Input[str],
+    location: Input[str],
+    **kwargs,
+) -> network.VirtualNetwork:
     """Create a virtual network."""
     return network.VirtualNetwork(
         name,
@@ -155,7 +169,12 @@ def create_virtual_network(name: str, resource_group_name: str, location: str, *
     )
 
 
-def create_subnet(name: str, resource_group_name: str, virtual_network_name: str, **kwargs) -> network.Subnet:
+def create_subnet(
+    name: str,
+    resource_group_name: Input[str],
+    virtual_network_name: Input[str],
+    **kwargs,
+) -> network.Subnet:
     """Create a subnet."""
     return network.Subnet(
         name,
@@ -166,7 +185,12 @@ def create_subnet(name: str, resource_group_name: str, virtual_network_name: str
     )
 
 
-def create_public_ip(name: str, resource_group_name: str, location: str, **kwargs) -> network.PublicIPAddress:
+def create_public_ip(
+    name: str,
+    resource_group_name: Input[str],
+    location: Input[str],
+    **kwargs,
+) -> network.PublicIPAddress:
     """Create a public IP."""
     return network.PublicIPAddress(
         name,
@@ -180,7 +204,11 @@ def create_public_ip(name: str, resource_group_name: str, location: str, **kwarg
     )
 
 
-def create_network_interface(name: str, resource_group_name: str, **kwargs) -> network.NetworkInterface:
+def create_network_interface(
+    name: str,
+    resource_group_name: Input[str],
+    **kwargs,
+) -> network.NetworkInterface:
     """Create a network interface."""
     return network.NetworkInterface(
         name,
