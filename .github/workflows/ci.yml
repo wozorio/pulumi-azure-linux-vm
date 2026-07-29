@@ -17,8 +17,7 @@ jobs:
 
       - uses: astral-sh/ruff-action@v3
 
-      - name: astral-sh/setup-uv
-        uses: astral-sh/setup-uv@v9.0.0
+      - uses: astral-sh/setup-uv@v9.0.0
         with:
           python-version: "3.12"
 
@@ -35,6 +34,7 @@ jobs:
         with:
           command: preview
           stack-name: playground
+          refresh: true
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }} \

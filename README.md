@@ -29,5 +29,5 @@ Pulumi Python code for deploying a Linux VM with Ubuntu 24.04 LTS in Azure.
 
 1. Run Pulumi
    ```bash
-   pulumi up
+   pulumi up -r
    ```
