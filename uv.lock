@@ -284,16 +284,16 @@ requires-dist = [
 
 [[package]]
 name = "pulumi-azure-native"
-version = "3.27.0"
+version = "3.28.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "parver" },
     { name = "pulumi" },
     { name = "semver" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ce/74/295aa65efe61257c9e2a5e777397a4a3baabdf7e1ffe4fe083045d7dde64/pulumi_azure_native-3.27.0.tar.gz", hash = "sha256:99d849a325275fc718f9f10f58681afb7cc721aa5a31caa1ea571b7a34139772", size = 12869026, upload-time = "2026-08-30T04:03:20.238Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/79/a4/5a425ebffd05455f58d5ed065c8ff8a4c6382176502e0ebc4f916b3b27a3/pulumi_azure_native-3.28.0.tar.gz", hash = "sha256:fd5d8ee2ffe1fb544615d3b074821e4bb150b91d72daaaaf65f6f4ce5283e64e", size = 12868245, upload-time = "2026-09-14T01:51:25.393Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1e/1e/a8fdc01985675d4d4d573b4be8d9fdfe6a7fd723bda01872d3cb818e1814/pulumi_azure_native-3.27.0-py3-none-any.whl", hash = "sha256:bf292afe2052ebe8a33de41d8318e8b88f6efe20ad634edb67601896fe652444", size = 21639820, upload-time = "2026-08-30T04:03:17.283Z" },
+    { url = "https://files.pythonhosted.org/packages/23/f0/d1dd62d1d2221a30252cd2e5dd1390d041f5f98de1c143f65f663747afe2/pulumi_azure_native-3.28.0-py3-none-any.whl", hash = "sha256:50e1c9d2767617aabf7d04b21cc059ea1ed6e3a763f5216fdc331feed31c76f5", size = 21640886, upload-time = "2026-09-14T01:51:22.573Z" },
 ]
 
 [[package]]
